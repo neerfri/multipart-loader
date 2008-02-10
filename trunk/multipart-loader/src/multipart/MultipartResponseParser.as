@@ -81,10 +81,12 @@ package multipart
 		private function headerLinesReadComplete():void {
 			this._currentState = BodyState;
 			var findLengthHeader:Function = function callback(item:*, index:int, array:Array):Boolean {
-														return(item.key == 'Content-Length')
+														return(item.key == 'Content-Length');
 													};
 			var lengthHeader:MultipartResponseHeader = MultipartResponseHeader(this._headers.filter(findLengthHeader)[0]);
-			this.buffer.flushBySize(int(lengthHeader.value));
+			if (lengthHeader != null) { 
+				this.buffer.flushBySize(int(lengthHeader.value));
+			}
 			this.buffer.checkMemo();
 		}
 		
