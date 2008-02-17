@@ -74,12 +74,12 @@ package multipart
 				field.writeMultiByte(value + EOL,"utf-8");
 			}
 			if (getQualifiedClassName(value).search("ByteArray") != -1) {
-				var defLine:String = "Content-Disposition: form-data; "
-				if name!='' {
-					defLine = defLine +"name=\"" + name +  "\"; "
+				var defLine:String = "Content-Disposition: form-data; ";
+				if (name!='') {
+					defLine = defLine +"name=\"" + name +  "\"; ";
 				}
-				defLine = defLine + "filename=\"ruby.pdf\"" + EOL,"utf-8"
-				field.writeMultiByte(defLine);
+				defLine = defLine + "filename=\"ruby.pdf\"" + EOL;
+				field.writeMultiByte(defLine,"utf-8");
 				field.writeMultiByte("Content-Type: application/octet-stream" + EOL,"utf-8");
 				field.writeBytes(ByteArray(value));
 			}
