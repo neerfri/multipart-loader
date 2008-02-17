@@ -180,7 +180,10 @@ package multipart
 		}
 		
 		private function defaultCloseHandler(parent_event:Event):void {
-			var event:Event = new Event(Event.CLOSE);
+//			var event:Event = new Event(Event.CLOSE);
+//			this.dispatchEvent(event);
+//			_response.socketClosed();
+			var event:Event = new Event(Event.COMPLETE);
 			this.dispatchEvent(event);
 		}
 		

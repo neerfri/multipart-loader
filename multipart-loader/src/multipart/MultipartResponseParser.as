@@ -92,8 +92,8 @@ package multipart
 		
 		private function readBody(event:ProgressEvent):void {
 			var newLine:String = MultipartResponseBuffer(event.target).readLastLine();
-			this._rawBody = newLine;
-			this.dispatchEvent(new Event(Event.COMPLETE));
+			this._rawBody = this._rawBody + newLine;
+//			this.dispatchEvent(new Event(Event.COMPLETE));
 		}
 		
 		public function get rawResponse():String {
