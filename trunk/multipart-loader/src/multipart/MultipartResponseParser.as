@@ -1,9 +1,7 @@
 package multipart
 {
-	import flash.utils.ByteArray;
-	import flash.events.ProgressEvent;
 	import flash.events.EventDispatcher;
-	import flash.events.Event;
+	import flash.events.ProgressEvent;
 	
 	public class MultipartResponseParser extends EventDispatcher
 	{
@@ -13,6 +11,7 @@ package multipart
 		private var _rawStatusLine:String="";
 		private var _rawHeaders:String="";
 		private var _rawBody:String="";
+		private var is_chunked:Boolean = false;
 		
 		private const StatusState:String = 'status';
 		private const HeaderState:String = 'header';
@@ -87,12 +86,21 @@ package multipart
 			if (lengthHeader != null) { 
 				this.buffer.flushBySize(int(lengthHeader.value));
 			}
+			var searchChunkedHeader:Function = function searchChunkedHeader(item:*, index:int, array:Array):void {
+				trace(item.key);
+				if (item.key == 'Transfer-Encoding' && item.value == 'chunked') {
+					this.is_chunked = true
+				}
+			}
+			this._headers.forEach(searchChunkedHeader)
 			this.buffer.checkMemo();
 		}
+
 		
 		private function readBody(event:ProgressEvent):void {
 			var newLine:String = MultipartResponseBuffer(event.target).readLastLine();
 			this._rawBody = this._rawBody + newLine;
+			trace(newLine);
 //			this.dispatchEvent(new Event(Event.COMPLETE));
 		}
 		
